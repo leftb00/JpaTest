@@ -1,6 +1,9 @@
 package com.leftb.member;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -53,5 +56,27 @@ public class JpaTest {
 		member.setMname("고양이");
 		member.setMage(12);
 		memberRepository.save(member);
+	}
+
+	@Test
+	@DisplayName("특정 단어가 포함된 이름 검색")
+	public void searchKeyName() {
+		List<Member> memberlist = memberRepository.findByMnameLike("%이%");
+		for(Member member : memberlist) {
+			System.out.println(member.toString());
+		}
+	}
+
+	@Test
+	@DisplayName("회원 정보 수정")
+	public void modifyMember() {
+		Optional<Member> memberOptional = memberRepository.findById(14L);
+		assertTrue(memberOptional.isPresent());
+
+		Member member = memberOptional.get();
+		member.setMname("호돌이");
+		member.setMage(35);
+		memberRepository.save(member);
+		
 	}
 }

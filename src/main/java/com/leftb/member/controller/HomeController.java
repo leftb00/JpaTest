@@ -22,14 +22,31 @@ public class HomeController {
 	@RequestMapping(value={"/", "/memberList"})
 	public String memberList(Model model) {
 
-		List<Member> list = memberService.memberList();
-		model.addAttribute("memberlist", list);
+		model.addAttribute("memberlist", memberService.memberList());
 
 		return "member_list";
 	}
 
+	@RequestMapping(value="/joinForm")
+	public String joinForm() {
+
+		return "join_form";
+	}
+
+	@RequestMapping(value="/join")
+	public String join(HttpServletRequest request, Model model) {
+
+		String mid = request.getParameter("mid");
+		String mpw = request.getParameter("mpw");
+		String mname = request.getParameter("mname");
+		String mage = request.getParameter("mage");
+		memberService.joinMember(mid, mpw, mname, mage);
+
+		return "redirect:memberList";
+	}
+
 	@RequestMapping(value="/searchForm")
-	public String searchForm(Model model) {
+	public String searchForm() {
 
 		return "search_form";
 	}
